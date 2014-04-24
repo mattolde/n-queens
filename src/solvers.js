@@ -105,7 +105,7 @@ window.countNQueensSolutions = function(n) {
   var checkBoard = function(board, row){
     for(var col = 0; col < n; col++){
       board.togglePiece(row, col);
-      if(!board.hasRowConflictAt(row) && !board.hasColConflictAt(col) && !board.hasAnyMinorDiagonalConflicts() && !board.hasAnyMajorDiagonalConflicts()){
+      if(!board.hasAnyConflict(row, col)){
         if(row === (n - 1)){
           solutionCount++;
         } else {

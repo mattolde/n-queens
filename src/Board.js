@@ -154,8 +154,6 @@
       return false;
     },
 
-
-
     // Major Diagonals - go from top-left to bottom-right
     // --------------------------------------------------------------
     //
@@ -167,22 +165,34 @@
       // get n as length of rows
       var rows = this.rows();
       // loop through rows starting row index
-      for (var row = rowIndex; row < rows.length; row++) {
+      //
+      var majorRowIndex = 0;
+      var majorColIndex = 0;
+
+      if(rowIndex > colIndex){
+        majorRowIndex = rowIndex - colIndex;
+        majorColIndex = 0;
+      } else {
+        majorRowIndex = 0;
+        majorColIndex = colIndex - rowIndex;
+      }
+
+      for (var row = majorRowIndex; row < rows.length; row++) {
         // start at col index
         // check current position row & col index
-        if (rows[row][colIndex]) {
+        if (rows[row][majorColIndex]) {
         // if piece increment count
           count++;
-        //  if count is 2 return true
+          //  if count is 2 return true
           if (count === 2) {
             return true;
-        //  else if column is 'n'-1 return false
-          } else if (colIndex === rows.length - 1) {
+          //  else if column is 'n'-1 return false
+          } else if (majorColIndex === rows.length - 1) {
             return false;
           }
         }
         // column count + 1
-        colIndex++;
+        majorColIndex++;
       }
 
       return false;
@@ -225,22 +235,34 @@
       // get n as length of rows
       var rows = this.rows();
       // loop through rows starting row index
-      for (var row = rowIndex; row < rows.length; row++) {
+
+      var minorRowIndex = 0;
+      var minorColIndex = rows.length;
+      var distanceRight = (rows.length - 1) - colIndex;//temp
+
+      if(rowIndex > distanceRight) {
+        minorRowIndex = rowIndex - distanceRight;
+        minorColIndex = rows.length - 1;
+      } else {
+        minorRowIndex = 0;
+        minorColIndex = colIndex + rowIndex;
+      }
+      for (var row = minorRowIndex; row < rows.length; row++) {
         // start at col index
         // check current position row & col index
-        if (rows[row][colIndex]) {
+        if (rows[row][minorColIndex]) {
         // if piece decrement count
           count++;
         //  if count is 2 return true
           if (count === 2) {
             return true;
         //  else if column is 'n'-1 return false
-          } else if (colIndex === 0) {
+          } else if (minorColIndex === 0) {
             return false;
           }
         }
         // column count - 1
-        colIndex--;
+        minorColIndex--;
       }
 
       return false;
@@ -268,6 +290,103 @@
       }
 
       return false;
+    },
+    // new function that checks row and col conflicts at once
+    hasAnyConflict: function(rowIndex, colIndex) {
+      // Checks major and minor di and Row Col
+      var count = 0;
+      var rows = this.rows();
+      var n = rows.length;
+
+      //COLUMN CHECK
+      for (var i = 0; i < n; i++) {
+        if(rows[i][colIndex]) {
+          count++;
+          if(count === 2) {
+            return true;
+          }
+        }
+      }
+      //else reset count
+      count = 0;
+
+      //ROW CHECK
+      var row = rows[rowIndex];
+      for(var i = 0; i < n; i++){
+        if(row[i] === 1){
+          count++;
+          if(count === 2){
+            return true;
+          }
+        }
+      }
+      //else reset count
+      count = 0;
+
+      // MINOR CHECK
+
+      var minorRowIndex = 0;
+      var minorColIndex = n;
+      var distanceRight = (n - 1) - colIndex;//temp
+
+      if(rowIndex > distanceRight) {
+        minorRowIndex = rowIndex - distanceRight;
+        minorColIndex = n - 1;
+      } else {
+        minorRowIndex = 0;
+        minorColIndex = colIndex + rowIndex;
+      }
+      for (var row = minorRowIndex; row < n; row++) {
+        // start at col index
+        // check current position row & col index
+        if (rows[row][minorColIndex]) {
+        // if piece decrement count
+          count++;
+        //  if count is 2 return true
+          if (count === 2) {
+            return true;
+        //  else if column is 'n'-1 return false
+          } else if (minorColIndex === 0) {
+            return false;
+          }
+        }
+        // column count - 1
+        minorColIndex--;
+      }
+
+      count = 0;
+
+      // MAJOR CHECK
+      var majorRowIndex = 0;
+      var majorColIndex = 0;
+
+      if(rowIndex > colIndex){
+        majorRowIndex = rowIndex - colIndex;
+        majorColIndex = 0;
+      } else {
+        majorRowIndex = 0;
+        majorColIndex = colIndex - rowIndex;
+      }
+
+      for (var row = majorRowIndex; row < n; row++) {
+        // start at col index
+        // check current position row & col index
+        if (rows[row][majorColIndex]) {
+        // if piece increment count
+          count++;
+          //  if count is 2 return true
+          if (count === 2) {
+            return true;
+          //  else if column is 'n'-1 return false
+          } else if (majorColIndex === n - 1) {
+            return false;
+          }
+        }
+        // column count + 1
+        majorColIndex++;
+      }
+
+      return false; //remove later
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
