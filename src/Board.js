@@ -79,12 +79,37 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      //keep count of pieces in the row
+      var row = this.rows()[rowIndex];
+      var count = 0;
+      //iterate through the row array and increment count when there is a piece
+      for(var i = 0; i < row.length; i++){
+        //if count === 2 then return true
+        if(row[i] === 1){
+          count++;
+          if(count === 2){
+            return true;
+          }
+        }
+      }
+      return false;
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      var rows = this.rows();
+
+      //loop through all rows
+      for (var i = 0; i < rows.length; i++) {
+        //use hasRowConflictAt to check it there is a conflict
+        if (this.hasRowConflictAt(i)) {
+          //if there is any conflict, return true
+          return true;
+        }
+      }
+
+      //else return false
+      return false;
     },
 
 
@@ -94,12 +119,39 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      //keep count
+      var count = 0;
+      var rows = this.rows();
+      //loop through each row
+      for (var i = 0; i < rows.length; i++) {
+      //check at row index of colIndex
+        if(rows[i][colIndex]) {
+        //if there is a 1 increment count
+          count++;
+          //if count is 2 return true
+          if(count === 2) {
+            return true;
+          }
+        }
+      }
+      //else return false
+      return false;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      // get first row
+      var colCount = this.rows()[0].length;
+      // interate row indexes
+      for(var i = 0; i < colCount; i++){
+      // check hasColConflictAt if col index has conflict
+        if(this.hasColConflictAt(i)){
+          // return if conflict
+          return true;
+        }
+      }
+      // false if no conflict
+      return false;
     },
 
 
