@@ -56,6 +56,7 @@ window.countNRooksSolutions = function(n) {
       //check for row and col conflicts
       if(!board.hasRowConflictAt(rowIndex) && !board.hasColConflictAt(col)){
         //  if no conflicts, put copy to partial
+        console.log('possible solution!');
         tempArr.push(board);
       }
       //toggle off
@@ -69,9 +70,13 @@ window.countNRooksSolutions = function(n) {
     // iterate through all partials, checkBoard on row of n
     var nextPartial = [];
     for(var k = 0; k < partial.length; k++){
-      nextPartial.concat(checkBoard(i, partial[k]));
+      nextPartial = nextPartial.concat(checkBoard(i, partial[k]));
     }
     partial = nextPartial;
+  }
+
+  for(var t = 0; t < partial.length; t++){
+    console.log("MATRIX ", partial[t].rows());
   }
 
   solutionCount = partial.length;
