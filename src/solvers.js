@@ -45,41 +45,22 @@ window.findNRooksSolution = function(n) {
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
   var solutionCount = 0;
-  var partial = [new Board({n: n})];
 
-  var checkBoard = function(rowIndex, board){
-    //loop through the row at rowIndex of the board
-    var tempArr = [];
+  var checkBoard = function(board, row){
     for(var col = 0; col < n; col++){
-      //toggle position at colindex
-      board.togglePiece(rowIndex, col);
-      //check for row and col conflicts
-      if(!board.hasRowConflictAt(rowIndex) && !board.hasColConflictAt(col)){
-        //  if no conflicts, put copy to partial
-        console.log('possible solution!');
-        tempArr.push(board);
+      board.togglePiece(row, col);
+      if(!board.hasRowConflictAt(row) && !board.hasColConflictAt(col)){
+        if(row === (n - 1)){
+          solutionCount++;
+        } else {
+          checkBoard(board, row + 1);
+        }
       }
-      //toggle off
-      board.togglePiece(rowIndex, col);
+      board.togglePiece(row, col);
     }
-
-    return tempArr;
   };
 
-  for(var i = 0; i < n; i++){
-    // iterate through all partials, checkBoard on row of n
-    var nextPartial = [];
-    for(var k = 0; k < partial.length; k++){
-      nextPartial = nextPartial.concat(checkBoard(i, partial[k]));
-    }
-    partial = nextPartial;
-  }
-
-  for(var t = 0; t < partial.length; t++){
-    console.log("MATRIX ", partial[t].rows());
-  }
-
-  solutionCount = partial.length;
+  checkBoard(new Board({n: n}), 0);
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
