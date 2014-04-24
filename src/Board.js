@@ -218,7 +218,7 @@
     // --------------------------------------------------------------
     //
     // test if a specific minor diagonal on this board contains a conflict
-    hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
+    hasMinorDiagonalConflictAt: function(rowIndex, colIndex) {
       // keep count of items
       var count = 0;
       // column counter
@@ -229,18 +229,18 @@
         // start at col index
         // check current position row & col index
         if (rows[row][colIndex]) {
-        // if piece increment count
+        // if piece decrement count
           count++;
         //  if count is 2 return true
           if (count === 2) {
             return true;
         //  else if column is 'n'-1 return false
-          } else if (colIndex === rows.length - 1) {
+          } else if (colIndex === 0) {
             return false;
           }
         }
-        // column count + 1
-        colIndex++;
+        // column count - 1
+        colIndex--;
       }
 
       return false;
@@ -248,21 +248,21 @@
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      //start at 0,0
+      //start at n-1, n-1
       var n = this.rows().length;
       // loop through rows
       for (var row = 0; row < (n - 1); row++) {
         // if on first row
         if (row === 0) {
-          // loop through columns - 1
-          for (var col = 1; col < (n - 1); col++) {
-            if (this.hasMajorDiagonalConflictAt(row, col)) {
+          // loop through columns
+          for (var col = n - 1; col > 0; col--) {
+            if (this.hasMinorDiagonalConflictAt(row, col)) {
               return true;
             }
           }
         }
-        // check row index and col index 0
-        if (this.hasMajorDiagonalConflictAt(row, 0)) {
+        // check row index and col index n - 1
+        if (this.hasMinorDiagonalConflictAt(row, n - 1)) {
           return true;
         }
       }
