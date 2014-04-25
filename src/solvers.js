@@ -115,7 +115,6 @@ window.countNQueensSolutions = function(n) {
     for(var i = 0; i < n; i++){
       //check each of the 3 arrays
       if(!colArr[i] && !rightArr[i] && !leftArr[i]) {
-        // console.log('n', n, 'ROW',row,'COLARR', colArr, 'RIGHT',rightArr, 'LEFT',leftArr);
       //if there is no 1 in the array, than toggle piece
       //check if this is the last row, if yes increment solutionCount
         if (row + 1 === n) {
@@ -146,6 +145,39 @@ window.countNQueensSolutions = function(n) {
   };
 
   checkBoard(0, colArr, rightArr, leftArr);
+
+  console.log('Number of solutions for ' + n + ' queens:', solutionCount);
+  return n === 0 ? 1 : solutionCount; // edit me later?
+};
+
+// return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other using bitwise operators
+window.countNQueensBits = function(n) {
+
+  var solutionCount = 0;
+
+  var checkBoard = function(row, colArr, rightArr, leftArr){
+    var blocked = colArr | rightArr | leftArr;
+    for(var i = 0; i < n; i++){
+      //check each Math.pow(i, n); against the 3 arrays
+      var col = Math.pow(2, i);
+      if((col & blocked) === 0) {
+      //check if this is the last row, if yes increment solutionCount
+        if (row + 1 === n) {
+          solutionCount++;
+          return;
+        } else {
+        //  ** put a 1 on index i
+          var newColArr = colArr | col;
+          var newRightArr = rightArr | col;
+          var newLeftArr = leftArr | col;
+        // recurse on the new arrangement
+          checkBoard(row + 1, newColArr, newRightArr >> 1, newLeftArr << 1);
+        }
+      }
+    }
+  };
+
+  checkBoard(0, 0, 0, 0);
 
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return n === 0 ? 1 : solutionCount; // edit me later?

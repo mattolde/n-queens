@@ -54,34 +54,34 @@ describe('solvers', function() {
 
   });
 
-  describe('countNQueensSolutions() for large N', function() {
+  describe('countNQueensBits() for large N', function() {
     xit('n = 2', function() {
-      var solutionCount = countNQueensSolutions(2);
+      var solutionCount = countNQueensBits(2);
       expect(solutionCount).to.be.equal(0);
     });
 
     xit('n = 4', function() {
-      var solutionCount = countNQueensSolutions(4);
+      var solutionCount = countNQueensBits(4);
       expect(solutionCount).to.be.equal(2);
     });
 
     xit('n = 8', function() {
-      var solutionCount = countNQueensSolutions(8);
+      var solutionCount = countNQueensBits(8);
       expect(solutionCount).to.be.equal(92);
     });
 
     xit('n = 11', function() {
-      var solutionCount = countNQueensSolutions(11);
+      var solutionCount = countNQueensBits(11);
       expect(solutionCount).to.be.equal(2680);
     });
 
-    xit('n = 12', function() {
-      var solutionCount = countNQueensSolutions(12);
+    it('n = 12', function() {
+      var solutionCount = countNQueensBits(12);
       expect(solutionCount).to.be.equal(14200);
     });
 
     xit('n = 13', function() {
-      var solutionCount = countNQueensSolutions(13);
+      var solutionCount = countNQueensBits(13);
       expect(solutionCount).to.be.equal(73712);
     });
 
@@ -89,7 +89,7 @@ describe('solvers', function() {
       var solutionCount = countNQueensSolutions(14);
       expect(solutionCount).to.be.equal(365596);
      });
-    it('n = 15', function() {
+    xit('n = 15', function() {
       var solutionCount = countNQueensSolutions(15);
       expect(solutionCount).to.be.equal(2279184);
      });
