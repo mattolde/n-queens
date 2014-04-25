@@ -152,28 +152,20 @@ window.countNQueensSolutions = function(n) {
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other using bitwise operators
 window.countNQueensBits = function(n) {
-
   var solutionCount = 0;
+  var allOnes = (1 << n) - 1;
 
   var checkBoard = function(row, colArr, rightArr, leftArr){
-    var blocked = colArr | rightArr | leftArr;
+    var available = (colArr | rightArr | leftArr) ^ allOnes;
+    if((colArr ^ allOnes) === 0) {
+      solutionCount++;
+      return;
+    }
+
     for(var i = 0; i < n; i++){
       //check each Math.pow(i, n); against the 3 arrays
-      var col = Math.pow(2, i);
-      if((col & blocked) === 0) {
-      //check if this is the last row, if yes increment solutionCount
-        if (row + 1 === n) {
-          solutionCount++;
-          return;
-        } else {
-        //  ** put a 1 on index i
-          var newColArr = colArr | col;
-          var newRightArr = rightArr | col;
-          var newLeftArr = leftArr | col;
-        // recurse on the new arrangement
-          checkBoard(row + 1, newColArr, newRightArr >> 1, newLeftArr << 1);
-        }
-      }
+      var col = 1 << i;
+      (col & available) && checkBoard(row + 1, colArr | col, (rightArr | col) >> 1, (leftArr | col) << 1);
     }
   };
 

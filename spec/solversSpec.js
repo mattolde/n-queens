@@ -86,11 +86,11 @@ describe('solvers', function() {
     });
 
     xit('n = 14', function() {
-      var solutionCount = countNQueensSolutions(14);
+      var solutionCount = countNQueensBits(14);
       expect(solutionCount).to.be.equal(365596);
      });
     xit('n = 15', function() {
-      var solutionCount = countNQueensSolutions(15);
+      var solutionCount = countNQueensBits(15);
       expect(solutionCount).to.be.equal(2279184);
      });
 
