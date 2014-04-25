@@ -101,23 +101,52 @@ window.findNQueensSolution = function(n) {
 window.countNQueensSolutions = function(n) {
 
   var solutionCount = 0;
+  //initialize arrays
+  var colArr = [];
+  var rightArr = [];
+  var leftArr = [];
+  for (var i = 0; i < n; i++) {
+    colArr.push(0);
+    rightArr.push(0);
+    leftArr.push(0);
+  }
 
-  var checkBoard = function(board, row){
-    for(var col = 0; col < n; col++){
-      board.togglePiece(row, col);
-      if(!board.hasAnyConflict(row, col)){
-        if(row === (n - 1)){
+  var checkBoard = function(row, colArr, rightArr, leftArr){
+    for(var i = 0; i < n; i++){
+      //check each of the 3 arrays
+      if(!colArr[i] && !rightArr[i] && !leftArr[i]) {
+        // console.log('n', n, 'ROW',row,'COLARR', colArr, 'RIGHT',rightArr, 'LEFT',leftArr);
+      //if there is no 1 in the array, than toggle piece
+      //check if this is the last row, if yes increment solutionCount
+        if (row + 1 === n) {
           solutionCount++;
+          return;
         } else {
-          checkBoard(board, row + 1);
+          //create a copy of the arrays and operate on that
+          var copyColArr = colArr.slice();
+          var copyRightArr = rightArr.slice();
+          var copyLeftArr = leftArr.slice();
+
+          copyColArr[i] = 1;
+          copyRightArr[i] = 1;
+          copyLeftArr[i] = 1;
+
+        //if not...
+        //  shift rightArr right by adding a zero to the beginning and popping off the last value
+          copyRightArr.unshift(0);
+          copyRightArr.pop();
+        //  shift leftArr left by removing the first item and adding a zero to the end
+          copyLeftArr.shift();
+          copyLeftArr.push(0);
+        //  recurse on the new arrangement
+          checkBoard(row + 1, copyColArr, copyRightArr, copyLeftArr);
         }
       }
-      board.togglePiece(row, col);
     }
   };
 
-  checkBoard(new Board({n: n}), 0);
+  checkBoard(0, colArr, rightArr, leftArr);
 
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
-  return n === 0 ? 1 : solutionCount; // edit me later
+  return n === 0 ? 1 : solutionCount; // edit me later?
 };

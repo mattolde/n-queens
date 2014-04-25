@@ -3,7 +3,7 @@ describe('solvers', function() {
 
   describe('findNRooksSolution()', function() {
 
-    it('finds a valid solution for n of 1-8', function() {
+    xit('finds a valid solution for n of 1-8', function() {
       _.range(1, 9).map(function(n) {
         var solutionBoard = new Board(findNRooksSolution(n));
 
@@ -16,7 +16,7 @@ describe('solvers', function() {
 
   describe('countNRooksSolutions()', function() {
 
-    it('finds the number of valid solutions for n of 1-8', function() {
+    xit('finds the number of valid solutions for n of 1-8', function() {
       _.range(1, 9).map(function(n) {
         var solutionCount = countNRooksSolutions(n);
         var expectedSolutionCount = [1, 1, 2, 6, 24, 120, 720, 5040, 40320][n];
@@ -29,7 +29,7 @@ describe('solvers', function() {
 
   describe('findNQueensSolution()', function() {
 
-    it('finds a valid solution for n of 0-8', function() {
+    xit('finds a valid solution for n of 0-8', function() {
       _.range(1, 8).map(function(n) {
         var solutionBoard = new Board(findNQueensSolution(n));
 
@@ -42,14 +42,57 @@ describe('solvers', function() {
 
   describe('countNQueensSolutions()', function() {
 
-    it('finds the number of valid solutions for n of 0-8', function() {
+    xit('finds the number of valid solutions for n of 0-8', function() {
       _.range(0, 9).map(function(n) {
         var solutionCount = countNQueensSolutions(n);
         var expectedSolutionCount = [1, 1, 0, 0, 2, 10, 4, 40, 92][n];
+        // var expectedSolutionCount = [1, 1, 0, 0, 2, 10, 4, 40, 92, 352, 724, 2680, 14200, ][n];
 
         expect(solutionCount).to.be.equal(expectedSolutionCount);
       });
     });
+
+  });
+
+  describe('countNQueensSolutions() for large N', function() {
+    xit('n = 2', function() {
+      var solutionCount = countNQueensSolutions(2);
+      expect(solutionCount).to.be.equal(0);
+    });
+
+    xit('n = 4', function() {
+      var solutionCount = countNQueensSolutions(4);
+      expect(solutionCount).to.be.equal(2);
+    });
+
+    xit('n = 8', function() {
+      var solutionCount = countNQueensSolutions(8);
+      expect(solutionCount).to.be.equal(92);
+    });
+
+    xit('n = 11', function() {
+      var solutionCount = countNQueensSolutions(11);
+      expect(solutionCount).to.be.equal(2680);
+    });
+
+    xit('n = 12', function() {
+      var solutionCount = countNQueensSolutions(12);
+      expect(solutionCount).to.be.equal(14200);
+    });
+
+    xit('n = 13', function() {
+      var solutionCount = countNQueensSolutions(13);
+      expect(solutionCount).to.be.equal(73712);
+    });
+
+    xit('n = 14', function() {
+      var solutionCount = countNQueensSolutions(14);
+      expect(solutionCount).to.be.equal(365596);
+     });
+    it('n = 15', function() {
+      var solutionCount = countNQueensSolutions(15);
+      expect(solutionCount).to.be.equal(2279184);
+     });
 
   });
 

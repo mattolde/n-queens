@@ -307,27 +307,38 @@
           }
         }
       }
+      //SKIPPING ROW CHECK
+      //else reset count
+      // count = 0;
+
+      // //ROW CHECK
+      // var row = rows[rowIndex];
+      // for(var i = 0; i < n; i++){
+      //   if(row[i] === 1){
+      //     count++;
+      //     if(count === 2){
+      //       return true;
+      //     }
+      //   }
+      // }
       //else reset count
       count = 0;
 
-      //ROW CHECK
-      var row = rows[rowIndex];
-      for(var i = 0; i < n; i++){
-        if(row[i] === 1){
-          count++;
-          if(count === 2){
-            return true;
-          }
-        }
-      }
-      //else reset count
-      count = 0;
+      // set Major and Minor indices
 
-      // MINOR CHECK
-
+      var majorRowIndex = 0;
+      var majorColIndex = 0;
       var minorRowIndex = 0;
       var minorColIndex = n;
       var distanceRight = (n - 1) - colIndex;//temp
+
+      if(rowIndex > colIndex){
+        majorRowIndex = rowIndex - colIndex;
+        majorColIndex = 0;
+      } else {
+        majorRowIndex = 0;
+        majorColIndex = colIndex - rowIndex;
+      }
 
       if(rowIndex > distanceRight) {
         minorRowIndex = rowIndex - distanceRight;
@@ -336,6 +347,10 @@
         minorRowIndex = 0;
         minorColIndex = colIndex + rowIndex;
       }
+
+      // MINOR CHECK
+
+
       for (var row = minorRowIndex; row < n; row++) {
         // start at col index
         // check current position row & col index
@@ -357,16 +372,6 @@
       count = 0;
 
       // MAJOR CHECK
-      var majorRowIndex = 0;
-      var majorColIndex = 0;
-
-      if(rowIndex > colIndex){
-        majorRowIndex = rowIndex - colIndex;
-        majorColIndex = 0;
-      } else {
-        majorRowIndex = 0;
-        majorColIndex = colIndex - rowIndex;
-      }
 
       for (var row = majorRowIndex; row < n; row++) {
         // start at col index
